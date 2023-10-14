@@ -1,3 +1,3 @@
 # computer notes
 
-[Linux Notes](github.com/xitongsys/linux_codes)
+[Linux Notes](https://github.com/xitongsys/linux_codes)
