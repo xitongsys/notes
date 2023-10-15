@@ -563,7 +563,7 @@ static int push_args(Node *node) {
   // If the return type is a large struct/union, the caller passes
   // a pointer to a buffer as if it were the first argument.
   if (node->ret_buffer && node->ty->size > 16) {
-    println("  lea %d(%%rbp), %%rax", node->ret_buffer->offset);
+    println("  lea %d(%%rbp), %%rax", node->->offset);
     push();
   }
 
