@@ -5,7 +5,7 @@ using ll = long long;
 using pll = pair<ll, ll>;
 using pii = pair<int, int>;
 
-namespace Algos {
+namespace algos {
 
 // Segment Tree /////////////////////
 struct Sum {
