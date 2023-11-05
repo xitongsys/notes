@@ -128,31 +128,54 @@ struct SegTree {
 /////////////////////
 
 // Index Tree
-class BinTree : vector<long long> {
+class BinTree : vector<ll> {
 public:
-    explicit BinTree(long long k = 0) // ??????????k?????????
+    ll c0 = 0;
+    explicit BinTree(ll k = 0) // 默认初始化一个能保存k个元素的空树状数组
     {
-        assign(k + 1, 0); // ?????1??,0??????
+        assign(k + 1, 0); // 有效下标从0开始
     }
-    long long lowbit(long long k)
+    int lowbit(ll k)
     {
-        return k & -k;
-        // ????x&(x^(x1))
+        return k & -k; // 也可写作x&(x^(x–1))
     }
-    long long sum(long long k) // ??1?????n?????
+    ll sum(ll k) // [0,..,k] 的和，k为下标，不是个数
     {
-        return k > 0 ? sum(k - lowbit(k)) + (*this)[k] : 0;
+        ll res = _sum(k) + c0;
+        return res;
     }
-    long long last() // ??????????
+    ll query(ll b, ll e)
+    {
+        ll res = sum(e);
+        if (b > 0) {
+            res -= sum(b - 1);
+        }
+        return res;
+    }
+
+    ll _sum(ll k) // 求第1个元素到第n个元素的和
+    {
+        ll res = (k > 0 ? _sum(k - lowbit(k)) + (*this)[k] : 0);
+        return res;
+    }
+    ll last() // 返回最后一个元素下标
     {
         return size() - 1;
     }
-    void add(long long k, long long w) // ???k??w
+    void add(ll k, ll w) // k 为下标
+    {
+        if (k == 0) {
+            c0 += w;
+            return;
+        }
+        _add(k, w);
+    }
+    void _add(ll k, ll w) // 为节点k加上w, k为下标
     {
         if (k > last())
             return;
         (*this)[k] += w;
-        add(k + lowbit(k), w);
+        _add(k + lowbit(k), w);
     }
 };
 
@@ -195,7 +218,7 @@ ll extend_gcd(ll a, ll b, ll& x, ll& y)
         return r;
     }
 }
-ll inv(ll a, ll mod)
+ll inv2(ll a, ll mod)
 {
     ll x, y;
     extend_gcd(a, mod, x, y);
@@ -240,6 +263,54 @@ public:
 };
 
 ////////////////////////////
+
+// RabinHash (rolling Hash) //////////////////
+
+struct RabinHash {
+    using ll = long long;
+    ll h = 101, mod = 1e9 + 7;
+    ll n = 0;
+    vector<ll> hashs;
+    RabinHash(const string& s)
+    {
+        n = s.size();
+        hashs = vector<ll>(n, 0);
+        hashs[0] = s[0] % mod;
+        for (int i = 1; i < n; i++) {
+            ll a = s[i];
+            hashs[i] = ((hashs[i - 1] * h) % mod + a) % mod;
+        }
+    }
+
+    ll mpow(ll a, ll n)
+    {
+        if (n == 0) {
+            return 1;
+        }
+
+        ll r = mpow(a, n / 2);
+        r = (r * r) % mod;
+        if (n & 1) {
+            r *= a;
+            r %= mod;
+        }
+        return r;
+    }
+
+    // get hash value of substring s[b,e]
+    ll hval(ll b, ll e)
+    {
+        ll v = hashs[e];
+        if (b > 0) {
+            ll v2 = (hashs[b - 1] * mpow(h, e - b + 1)) % mod;
+            v -= v2;
+            v = (v % mod + mod) % mod;
+        }
+        return v;
+    }
+};
+
+/////////////////////////
 
 };
 
