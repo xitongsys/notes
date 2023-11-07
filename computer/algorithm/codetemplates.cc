@@ -312,9 +312,38 @@ struct RabinHash {
 
 /////////////////////////
 
+template <typename T = ll>
+T maxs(const list<T>& vals)
+{
+    return *max_element(vals.begin(), vals.end());
+}
+
+template <typename T = ll>
+T mins(const list<T>& vals)
+{
+    return *min_element(vals.begin(), vals.end());
+}
+
+template <typename T = ll>
+T sums(const list<T>& vals)
+{
+    T s = 0;
+    for (const T& val : vals) {
+        s += val;
+    }
+    return s;
+}
+
+////////////////////////////
+
 };
 
 int main()
 {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+
+
     return 0;
 }
