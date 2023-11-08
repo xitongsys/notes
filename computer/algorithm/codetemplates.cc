@@ -313,19 +313,31 @@ struct RabinHash {
 /////////////////////////
 
 template <typename T = ll>
-T maxs(const list<T>& vals)
+T maxs(const vector<T>& vals, T = 0LL)
 {
     return *max_element(vals.begin(), vals.end());
 }
 
+template <typename T>
+typename std::remove_reference<decltype(*T())>::type maxs(T it_b, T it_e)
+{
+    return *max_element(it_b, it_e);
+}
+
 template <typename T = ll>
-T mins(const list<T>& vals)
+T mins(const vector<T>& vals, T = 0LL)
 {
     return *min_element(vals.begin(), vals.end());
 }
 
+template <typename T>
+typename std::remove_reference<decltype(*T())>::type mins(T it_b, T it_e)
+{
+    return *min_element(it_b, it_e);
+}
+
 template <typename T = ll>
-T sums(const list<T>& vals)
+T sums(const vector<T>& vals, T = 0LL)
 {
     T s = 0;
     for (const T& val : vals) {
@@ -334,9 +346,27 @@ T sums(const list<T>& vals)
     return s;
 }
 
+template <typename T>
+typename std::remove_reference<decltype(*T())>::type sums(T it_b, T it_e)
+{
+    typename std::remove_reference<decltype(*T())>::type s = 0;
+    T it = it_b;
+    while (it != it_e) {
+        s += *it;
+        it++;
+    }
+    return s;
+}
+
 ////////////////////////////
 
 };
+
+
+
+
+
+
 
 int main()
 {
