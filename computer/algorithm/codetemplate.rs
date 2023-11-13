@@ -9,8 +9,6 @@ use std::ptr;
 use std::str::FromStr;
 use std::{cmp, collections::HashSet};
 
-use algo::Scanner;
-
 mod algo {
     // segment tree //////////////
     #[derive(Clone)]
