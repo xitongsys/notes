@@ -1,9 +1,15 @@
 use std::cmp::Ordering;
+use std::collections::binary_heap;
 use std::collections::BTreeSet;
 use std::collections::BinaryHeap;
 use std::hash;
+use std::io::{stdin, stdout, BufWriter, Write};
 use std::num::NonZeroIsize;
+use std::ptr;
+use std::str::FromStr;
 use std::{cmp, collections::HashSet};
+
+use algo::Scanner;
 
 mod algo {
     // segment tree //////////////
@@ -252,6 +258,29 @@ mod algo {
         x = (x % M + M) % M;
         return x;
     }
+
+    // io: scanner //////////////////
+    use std::io::{stdin, stdout, BufWriter, Write};
+
+    #[derive(Default)]
+    pub struct Scanner {
+        buffer: Vec<String>,
+    }
+    impl Scanner {
+        pub fn new() -> Self {
+            return Scanner { buffer: vec![] };
+        }
+        pub fn next<T: std::str::FromStr>(&mut self) -> T {
+            loop {
+                if let Some(token) = self.buffer.pop() {
+                    return token.parse().ok().expect("Failed parse");
+                }
+                let mut input = String::new();
+                stdin().read_line(&mut input).expect("Failed read");
+                self.buffer = input.split_whitespace().rev().map(String::from).collect();
+            }
+        }
+    }
 }
 
 
@@ -261,4 +290,8 @@ mod algo {
 
 
 
-fn main() {}
+
+struct Solution {}
+fn main() {
+    let mut input = algo::Scanner::new();
+}
