@@ -7,3 +7,7 @@
 * [endianness](network/endianness.ipynb)
 
 * [ip](network/ip.ipynb)
+
+* [udp](network/udp.ipynb)
+
+* [tcp](network/tcp.ipynb)
