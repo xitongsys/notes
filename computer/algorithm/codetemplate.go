@@ -853,6 +853,107 @@ func (st *SegTree) Query(lpos, rpos, u int64) int64 {
 	}
 }
 
+// TreeSet ///////////////
+
+type TreeSet[T Ordered] struct {
+	mp *TreeMap[T, int]
+}
+
+func NewTreeSet[T Ordered]() *TreeSet[T] {
+	return &TreeSet[T]{
+		mp: NewTreeMap[T, int](),
+	}
+}
+
+func (ts *TreeSet[T]) Insert(v T) {
+	ts.mp.Set(v, 1)
+}
+
+func (ts *TreeSet[T]) Del(v T) {
+	ts.mp.Del(v)
+}
+
+func (ts *TreeSet[T]) Size() int {
+	return ts.mp.Len()
+}
+
+func (ts *TreeSet[T]) Contains(v T) bool {
+	return ts.Contains(v)
+}
+
+func (ts *TreeSet[T]) LowerBound(v T) ForwardIterator[T, int] {
+	return ts.mp.LowerBound(v)
+}
+
+func (ts *TreeSet[T]) UpperBound(v T) ForwardIterator[T, int] {
+	return ts.mp.UpperBound(v)
+}
+
+// MultiTreeSet ///////////
+
+type MultiTreeSet[T Ordered] struct {
+	mp   *TreeMap[T, int]
+	size int
+}
+
+func NewMultiTreeSet[T Ordered]() *MultiTreeSet[T] {
+	res := &MultiTreeSet[T]{
+		mp:   NewTreeMap[T, int](),
+		size: 0,
+	}
+	return res
+}
+
+func (ts *MultiTreeSet[T]) Insert(v T) {
+	if !ts.mp.Contains(v) {
+		ts.mp.Set(v, 0)
+	}
+	c, _ := ts.mp.Get(v)
+	ts.mp.Set(v, c+1)
+	ts.size++
+}
+
+func (ts *MultiTreeSet[T]) Del(v T) {
+	if c, ok := ts.mp.Get(v); ok {
+		if c == 1 {
+			ts.mp.Del(v)
+		} else {
+			ts.mp.Set(v, c-1)
+		}
+		ts.size--
+	}
+}
+
+func (ts *MultiTreeSet[T]) DelAll(v T) {
+	if c, ok := ts.mp.Get(v); ok {
+		ts.mp.Del(v)
+		ts.size -= c
+	}
+}
+
+func (ts *MultiTreeSet[T]) Size() int {
+	return ts.size
+}
+
+func (ts *MultiTreeSet[T]) Contains(v T) bool {
+	return ts.mp.Contains(v)
+}
+
+func (ts *MultiTreeSet[T]) Count(v T) int {
+	if c, ok := ts.mp.Get(v); ok {
+		return c
+	}
+	return 0
+}
+
+func (ts *MultiTreeSet[T]) LowerBound(v T) ForwardIterator[T, int] {
+	return ts.mp.LowerBound(v)
+}
+
+func (ts *MultiTreeSet[T]) UpperBound(v T) ForwardIterator[T, int] {
+	return ts.mp.UpperBound(v)
+}
+
 // DiffArray /////////////
 
 type DiffArray[T NumInt] struct {
@@ -929,6 +1030,7 @@ func (rh *RabinHash) HashVal(b, e int) int64 {
 
 //////////////////////////////
 
+/////////////////////////////////
 func main() {
 	in := bufio.NewReader(os.Stdin)
 	out := bufio.NewWriter(os.Stdout)
