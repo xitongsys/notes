@@ -1028,14 +1028,30 @@ func (rh *RabinHash) HashVal(b, e int) int64 {
 	return v
 }
 
-//////////////////////////////
+// pair ///
+
+type Pair[T any] struct {
+	first, second T
+}
+
+// io ////////////
+var IN *bufio.Reader
+var OUT *bufio.Writer
+
+func cin(a ...any) {
+	fmt.Fscan(IN, a...)
+}
+
+func cout(a ...any) {
+	fmt.Fprint(OUT, a...)
+}
+
+//////////////////////
 
 /////////////////////////////////
 func main() {
-	in := bufio.NewReader(os.Stdin)
-	out := bufio.NewWriter(os.Stdout)
-	defer out.Flush()
+	IN = bufio.NewReader(os.Stdin)
+	OUT = bufio.NewWriter(os.Stdout)
+	defer OUT.Flush()
 
-	T := 0
-	fmt.Fscan(in, &T)
 }
